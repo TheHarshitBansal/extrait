@@ -1,10 +1,13 @@
-import { Button } from "@/components/ui/button";
+import BgGradient from "@/components/common/bg-gradient";
+import HeroSection from "@/components/home/HeroSection";
 
 export default function Home() {
   return (
-    <div className="">
-      <h1>Extrait</h1>
-      <Button variant={"outline"}>ShadCn</Button>
+    <div className="relative w-full">
+      <BgGradient />
+      <div className="flex flex-col">
+        <HeroSection />
+      </div>
     </div>
   );
 }
