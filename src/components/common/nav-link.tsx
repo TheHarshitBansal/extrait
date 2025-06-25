@@ -22,8 +22,8 @@ const Navlink = ({
       href={href}
       className={cn(
         className,
-        "transition-colors text-sm duration-200 text-gray-600 hover:text-emerald-500",
-        isActive && "text-emerald-500 font-semibold"
+        "transition-colors text-sm duration-200 text-gray-600 hover:text-rose-500",
+        isActive && "text-rose-500 font-semibold"
       )}
     >
       {children}
