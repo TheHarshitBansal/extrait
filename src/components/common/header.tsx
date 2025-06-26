@@ -1,6 +1,7 @@
 import { FileSignatureIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Navlink from "./nav-link";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const Header = () => {
   const isLoggedIn = false;
@@ -17,18 +18,21 @@ const Header = () => {
       </div>
       <div className="flex lg:justify-center gap-x-4 lg:gap-x-12 lg:items-center">
         <Navlink href={"/#pricing"}>Pricing</Navlink>
-        {isLoggedIn && <Navlink href={"/dashboard"}>Your Documents</Navlink>}
+        <SignedIn>
+          <Navlink href={"/dashboard"}>Your Documents</Navlink>
+        </SignedIn>
       </div>
       <div className="flex lg:justify-end lg:flex-1">
-        {isLoggedIn ? (
+        <SignedIn>
           <div className="flex items-center gap-x-2">
             <Navlink href={"/upload"}>Upload a PDF</Navlink>
             <span>Pro</span>
-            <Button>User</Button>
+            <UserButton />
           </div>
-        ) : (
-          <Navlink href={"/signin"}>Sign In</Navlink>
-        )}
+        </SignedIn>
+        <SignedOut>
+          <Navlink href={"/sign-in"}>Sign In</Navlink>
+        </SignedOut>
       </div>
     </nav>
   );
