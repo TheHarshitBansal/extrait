@@ -33,7 +33,7 @@ export const ourFileRouter = {
       console.log("file url", file);
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId, fileUrl:file.ufsUrl };
+      return { uploadedBy: metadata.userId, file };
     }),
 } satisfies FileRouter;
 

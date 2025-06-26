@@ -6,6 +6,7 @@ import { z } from "zod";
 import { useUploadThing } from "@/utils/uploadthing";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
+import { generatePdfSummary } from "@/actions/uploadActions";
 
 const fileSchema = z.object({
   file: z
@@ -60,9 +61,11 @@ const UploadForm = () => {
       return;
     }
 
-    // toast.loading("Hang On! While our AI is processing your PDF 📄", {
-    //   richColors: true,
-    // });
+    toast.loading("Hang On! While our AI is processing your PDF 📄", {
+      richColors: true,
+    });
+
+    const summary = await generatePdfSummary(response as any);
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
