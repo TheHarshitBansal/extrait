@@ -10,7 +10,7 @@ const HeroSection = () => {
         <div className="relative p-[1px] rounded-full bg-linear-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x">
           <Badge
             variant={"secondary"}
-            className="relative px-6 py-2 text-base font-medium bg-white hover:bg-rose-100 rounded-full transition-colors duration-200"
+            className="relative cursor-default px-6 py-2 text-base font-medium bg-white hover:bg-rose-100 rounded-full transition-colors duration-200"
           >
             <Sparkles className="min-h-6 min-w-6 mr-2 text-rose-600 animate-pulse" />
             <p className="text-base text-rose-600">Powered by AI</p>
