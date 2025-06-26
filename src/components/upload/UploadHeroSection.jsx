@@ -25,7 +25,7 @@ const UploadHeroSection = () => {
           ></span>
         </span>
       </div>
-      <div className="text-lg leading-8 text-gray-600 max-w-2xl text-center">
+      <div className="text-lg leading-8 text-gray-600 max-w-[500px] text-center">
         <p>
           Drop your PDF here and watch Extrait work its magic—turning pages into
           powerful insights in seconds ✨
