@@ -34,6 +34,21 @@ export const generatePdfSummary = async (file: [{
 
     try {
         const pdfText = await fetchAndExtractPdfText(url);
+        if (!pdfText) {
+            return {
+                success: false,
+                message: "Failed to extract text from PDF",
+                data: null
+            };
+        }
+        return {
+            success: true,
+            message: "PDF summary generated successfully",
+            data: {
+                pdfText   
+            }
+        }
+        
     } catch (error) {
         console.error("Error generating PDF summary:", error);
         return {

@@ -7,6 +7,8 @@ import { useUploadThing } from "@/utils/uploadthing";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { generatePdfSummary } from "@/actions/uploadActions";
+import { Loader2 } from "lucide-react";
+import { generateAISummary } from "@/utils/gemini-ai";
 
 const fileSchema = z.object({
   file: z
@@ -24,16 +26,20 @@ const fileSchema = z.object({
 });
 
 const UploadForm = () => {
+  const formRef = React.useRef<HTMLFormElement>(null);
   const { startUpload, isUploading } = useUploadThing("pdfUploader", {
     onClientUploadComplete: (res) => {
+      toast.dismiss("uploading-pdf");
       if (res && res.length > 0) {
         toast.success("PDF uploaded successfully!");
       } else {
         toast.error("Failed to upload PDF.");
       }
     },
-    onUploadProgress: () => {
-      toast("Uploading PDF...");
+    onUploadBegin: () => {
+      toast.loading("Uploading PDF...", {
+        id: "uploading-pdf",
+      });
     },
     onUploadError: (error) => {
       toast.error(`Upload failed: ${error.message}`);
@@ -61,23 +67,56 @@ const UploadForm = () => {
       return;
     }
 
-    toast.loading("Hang On! While our AI is processing your PDF 📄", {
-      richColors: true,
+    toast.loading("📄 Analyzing PDF...", {
+      id: "analyzing-pdf",
+      description: "Hang On! Extrait AI is doing its magic for you ✨",
     });
 
     const summary = await generatePdfSummary(response as any);
+    if (summary?.success) {
+      toast.success("PDF summary generated successfully!");
+      formRef.current?.reset();
+      const AISummary = await generateAISummary(
+        summary?.data?.pdfText?.toString() || ""
+      );
+      if (!AISummary) {
+        toast.error("Failed to generate AI summary. Please try again later.");
+      } else {
+        toast.dismiss("analyzing-pdf");
+        toast.success("AI summary generated successfully!");
+      }
+    }
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={handleSubmit}
+        ref={formRef}
+      >
         <div className="flex justify-end items-center gap-1.5">
-          <Input type="file" id="file" name="file" accept="application/pdf" />
+          <Input
+            type="file"
+            id="file"
+            name="file"
+            accept="application/pdf"
+            disabled={isUploading}
+            className={`${
+              isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            }`}
+          />
           <Button
             type="submit"
             className="cursor-pointer"
             disabled={isUploading}
           >
-            Upload PDF
+            {isUploading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+              </>
+            ) : (
+              "Upload PDF"
+            )}
           </Button>
         </div>
       </form>
