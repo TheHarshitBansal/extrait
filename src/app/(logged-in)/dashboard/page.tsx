@@ -1,8 +1,57 @@
 import BgGradient from "@/components/common/bg-gradient";
+import SummaryCard from "@/components/summaries/SummaryCard";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightFromSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+
+const summaries = [
+  {
+    id: 1,
+    title: "Summary 1",
+    description: "Description of summary 1",
+    createdAt: "2025-06-27 15:20:28.050356+00",
+    status: "completed",
+    summary_text:
+      "This is a brief summary of the content. It provides an overview of the main points and key details.",
+  },
+  {
+    id: 2,
+    title: "Summary 2",
+    description: "Description of summary 2",
+    createdAt: "2025-06-27 15:20:28.050356+00",
+    status: "completed",
+    summary_text:
+      "This is a brief summary of the content. It provides an overview of the main points and key details.",
+  },
+  {
+    id: 3,
+    title: "Summary 3",
+    description: "Description of summary 3",
+    createdAt: "2025-06-27 15:20:28.050356+00",
+    status: "completed",
+    summary_text:
+      "This is a brief summary of the content. It provides an overview of the main points and key details.",
+  },
+  {
+    id: 4,
+    title: "Summary 4",
+    description: "Description of summary 4",
+    createdAt: "2025-06-27 15:20:28.050356+00",
+    status: "completed",
+    summary_text:
+      "This is a brief summary of the content. It provides an overview of the main points and key details.",
+  },
+  {
+    id: 5,
+    title: "Summary 5",
+    description: "Description of summary 5",
+    createdAt: "2025-06-27 15:20:28.050356+00",
+    status: "completed",
+    summary_text:
+      "This is a brief summary of the content. It provides an overview of the main points and key details.",
+  },
+];
 
 const page = () => {
   return (
@@ -44,6 +93,11 @@ const page = () => {
                 for unlimited uploads.
               </p>
             </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 sm:px-0">
+            {summaries.map((summary, index) => (
+              <SummaryCard key={index} summary={summary} />
+            ))}
           </div>
         </div>
       </div>
