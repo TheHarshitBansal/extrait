@@ -6,9 +6,11 @@ import { z } from "zod";
 import { useUploadThing } from "@/utils/uploadthing";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
-import { generatePdfSummary } from "@/actions/uploadActions";
+import { generatePdfSummary, storePdfSummary } from "@/actions/uploadActions";
 import { Loader2 } from "lucide-react";
 import { generateAISummary } from "@/utils/gemini-ai";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 const fileSchema = z.object({
   file: z
@@ -27,6 +29,9 @@ const fileSchema = z.object({
 
 const UploadForm = () => {
   const formRef = React.useRef<HTMLFormElement>(null);
+  const router = useRouter();
+  const { userId } = useAuth();
+
   const { startUpload, isUploading } = useUploadThing("pdfUploader", {
     onClientUploadComplete: (res) => {
       toast.dismiss("uploading-pdf");
@@ -71,11 +76,19 @@ const UploadForm = () => {
       id: "analyzing-pdf",
       description: "Hang On! Extrait AI is doing its magic for you ✨",
     });
-
+    let savedSummary;
     const summary = await generatePdfSummary(response as any);
     if (summary?.success) {
       toast.success("PDF summary generated successfully!");
       formRef.current?.reset();
+      if (summary.data?.pdfText) {
+        savedSummary = await storePdfSummary({
+          summary: summary.data?.pdfText?.toString(),
+          title: summary.data?.title,
+          fileName: file.name,
+          fileUrl: response[0].ufsUrl,
+        });
+      }
       const AISummary = await generateAISummary(
         summary?.data?.pdfText?.toString() || ""
       );
@@ -84,6 +97,7 @@ const UploadForm = () => {
       } else {
         toast.dismiss("analyzing-pdf");
         toast.success("AI summary generated successfully!");
+        router.push(`/summaries/${savedSummary?.data?.id}`);
       }
     }
   };
