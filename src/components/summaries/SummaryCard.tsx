@@ -5,12 +5,12 @@ import { FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 
-const SummaryCard = ({ summary }: { summary: any }) => {
+const SummaryCard = ({ summary }: any) => {
   return (
     <div>
       <Card className="relative h-full">
         <div className="absolute top-2 right-2">
-          <DeleteButton />
+          <DeleteButton userId={summary.user_id} summaryId={summary.id} />
         </div>
         <Link href={`/summary/${summary.id}`} className="block px-4">
           <div className="flex flex-col gap-3 sm:gap-4">
