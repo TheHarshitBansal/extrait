@@ -3,6 +3,7 @@ import DeleteButton from "./DeleteButton";
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { formatDistanceToNow } from "date-fns";
 
 const SummaryCard = ({ summary }: { summary: any }) => {
   return (
@@ -17,9 +18,13 @@ const SummaryCard = ({ summary }: { summary: any }) => {
               <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-rose-400 mt-1" />
               <div className="flex-1 min-w-0">
                 <h3 className="text-base xl:text-lg font-semibold text-gray-900 truncate w-4/5">
-                  {summary.title}
+                  {summary.title || summary.file_name}
                 </h3>
-                <p className="text-sm text-gray-500">{summary.createdAt}</p>
+                <p className="text-sm text-gray-500">
+                  {formatDistanceToNow(new Date(summary.created_at), {
+                    addSuffix: true,
+                  })}
+                </p>
               </div>
             </div>
             <p className="text-gray-600 line-clamp-2 text-sm sm:text-base pl-2">

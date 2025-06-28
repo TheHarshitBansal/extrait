@@ -81,17 +81,17 @@ const UploadForm = () => {
     if (summary?.success) {
       toast.success("PDF summary generated successfully!");
       formRef.current?.reset();
-      if (summary.data?.pdfText) {
-        savedSummary = await storePdfSummary({
-          summary: summary.data?.pdfText?.toString(),
-          title: summary.data?.title,
-          fileName: file.name,
-          fileUrl: response[0].ufsUrl,
-        });
-      }
-      const AISummary = await generateAISummary(
-        summary?.data?.pdfText?.toString() || ""
-      );
+    }
+    const AISummary = await generateAISummary(
+      summary?.data?.pdfText?.toString() || ""
+    );
+    if (AISummary && summary?.data) {
+      savedSummary = await storePdfSummary({
+        summary: AISummary,
+        title: summary.data?.title,
+        fileName: file.name,
+        fileUrl: response[0].ufsUrl,
+      });
       if (!AISummary) {
         toast.error("Failed to generate AI summary. Please try again later.");
       } else {
