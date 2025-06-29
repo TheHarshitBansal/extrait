@@ -4,7 +4,7 @@ import SummaryCard from "@/components/summaries/SummaryCard";
 import { Button } from "@/components/ui/button";
 import { getSummaries } from "@/lib/summaries";
 import { currentUser } from "@clerk/nextjs/server";
-import { ArrowUpRightFromSquare, Plus } from "lucide-react";
+import { ExternalLink, Plus } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -48,8 +48,7 @@ const page = async () => {
                   href={"/#pricing"}
                   className="flex items-center font-semibold"
                 >
-                  Upgrade to Pro{" "}
-                  <ArrowUpRightFromSquare className="h-4 w-4 mx-1" />
+                  Upgrade to Pro <ExternalLink className="h-4 w-4 mx-1" />
                 </Link>
                 for unlimited uploads.
               </p>
