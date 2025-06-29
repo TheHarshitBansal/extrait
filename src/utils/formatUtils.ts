@@ -6,9 +6,9 @@ export const formatFileNameAsTitle = (fileName: string): string => {
 
 export const parseSection = (section: string) => {
   const [title, ...contentLines] = section.split("\n");
-  const cleanTitle = title.startsWith("#")
-    ? title.substring(1).trim()
-    : title.trim();
+  const cleanTitle = title.startsWith("##") 
+    ? title.substring(2).trim()
+    : title.startsWith('#') ? title.substring(2).trim() : title.trim();
 
   const points: String[] = [];
   contentLines.forEach((line) => {

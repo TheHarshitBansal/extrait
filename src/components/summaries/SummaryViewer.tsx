@@ -10,6 +10,41 @@ import {
   parseSection,
 } from "@/utils/formatUtils";
 
+const RegularPoint = ({ point, index }: { point: string; index: number }) => (
+  <div
+    key={`point-${index}`}
+    className="group relative bg-linear-to-br from-gray-200/[0.08] to-gray-400/[0.03] p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all"
+  >
+    <div className="absolute inset-0 bg-linear-to-r from-gray-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+    <p className="relative text-lg lg:text-xl text-muted-foreground/90 leading-relaxed text-left">
+      {point}
+    </p>
+  </div>
+);
+
+const EmojiPoint = ({
+  emoji,
+  text,
+  index,
+}: {
+  emoji: string;
+  text: string;
+  index: number;
+}) => (
+  <div
+    key={`point-${index}`}
+    className="group relative bg-linear-to-br from-gray-200/[0.08] to-gray-400/[0.03] p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all"
+  >
+    <div className="absolute inset-0 bg-linear-to-r from-gray-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+    <div className="relative flex items-center gap-3">
+      <span className="text-lg lg:text-xl shrink-0 pt-1">{emoji}</span>
+      <p className="text-lg lg:text-xl text-muted-foreground/90 leading-relaxed">
+        {text}
+      </p>
+    </div>
+  </div>
+);
+
 const SectionTitle = ({ title }: { title: string }) => (
   <div className="flex flex-col gap-2 mb-6 sticky top-0 pt-2 pb-4 bg-background/80 backdrop-blur-xs z-10">
     <h2 className="text-3xl lg:text-4xl font-bold text-center flex items-center justify-center gap-2">
@@ -24,23 +59,13 @@ const SectionContent = ({ content }: { content: String[] }) => (
       const { isEmpty, isMainPoint, isNumbered, hasEmoji } = parsePoint(
         paragraph as string
       );
+      if (isEmpty) return null;
+
       const { emoji, text }: any = parseEmojiContent(paragraph as string);
       if (hasEmoji || isMainPoint) {
-        return (
-          <div
-            key={`point-${index}`}
-            className="group relative bg-linear-to-br from-gray-200/[0.08] to-gray-400/[0.03] p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all"
-          >
-            <div className="absolute inset-0 bg-linear-to-r from-gray-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-            <div className="relative flex items-center gap-3">
-              <span className="text-lg lg:text-xl shrink-0 pt-1">{emoji}</span>
-              <p className="text-lg lg:text-xl text-muted-foreground/90 leading-relaxed">
-                {text}
-              </p>
-            </div>
-          </div>
-        );
+        return <EmojiPoint emoji={emoji as string} text={text} index={index} />;
       }
+      return <RegularPoint point={paragraph as string} index={index} />;
     })}
   </div>
 );
@@ -57,7 +82,7 @@ const SummaryViewer = ({ summary_text }: { summary_text: string }) => {
           currentSection={currentSection}
           totalSections={sections.length}
         />
-        <div className="px-4 sm:px-6">
+        <div className="px-4 sm:px-6 cursor-default">
           <SectionTitle title={sections[currentSection]?.title || "Summary"} />
           <SectionContent content={sections[currentSection]?.content} />
         </div>

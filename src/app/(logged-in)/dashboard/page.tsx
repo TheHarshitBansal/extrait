@@ -46,7 +46,7 @@ const page = async () => {
                 You've reached the limit of 5 uploads on the Basic plan.
                 <Link
                   href={"/#pricing"}
-                  className="flex items-center font-semibold"
+                  className="inline-flex items-center font-semibold"
                 >
                   Upgrade to Pro <ExternalLink className="h-4 w-4 mx-1" />
                 </Link>
