@@ -17,7 +17,7 @@ const plans: PricingCardProps[] = [
     id: "basic",
     name: "Basic",
     description: "Perfect for occasional users",
-    price: 5,
+    price: 99,
     items: ["5 PDFs per month", "Basic processing", "Email support"],
     paymentLink: "",
   },
@@ -25,7 +25,7 @@ const plans: PricingCardProps[] = [
     id: "pro",
     name: "Pro",
     description: "Ideal for professionals or teams",
-    price: 20,
+    price: 499,
     items: [
       "Unlimited PDF summaries",
       "Priority processing",
@@ -78,9 +78,9 @@ const PricingCard = ({
           </div>
         </div>
         <div className="flex gap-x-2">
-          <p className="text-5xl tracking-tight font-extrabold">${price}</p>
+          <p className="text-5xl tracking-tight font-extrabold">₹{price}</p>
           <div className="flex flex-col justify-end mb-[4px]">
-            <p className="text-xs uppercase font-semibold">USD</p>
+            <p className="text-xs uppercase font-semibold">INR</p>
             <p className="text-xs">/month</p>
           </div>
         </div>
