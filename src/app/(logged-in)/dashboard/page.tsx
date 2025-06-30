@@ -3,6 +3,7 @@ import EmptySummary from "@/components/summaries/EmptySummary";
 import SummaryCard from "@/components/summaries/SummaryCard";
 import { Button } from "@/components/ui/button";
 import { getSummaries } from "@/lib/summaries";
+import { hasReachedUploadLimit } from "@/lib/user";
 import { currentUser } from "@clerk/nextjs/server";
 import { ExternalLink, Plus } from "lucide-react";
 import Link from "next/link";
@@ -15,6 +16,10 @@ const page = async () => {
     return redirect("/sign-in");
   }
   const summaries = await getSummaries(user.id as string);
+  const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(
+    user.id as string
+  );
+
   return (
     <main className="min-h-screen">
       <BgGradient className="from-emerald-200 via-teal-200 to-cyan-200" />
@@ -30,7 +35,10 @@ const page = async () => {
               </p>
             </div>
 
-            <Button className="relative p-0 h-full w-fit bg-gradient-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-800 hover:scale-105 transition-all duration-300">
+            <Button
+              className="relative p-0 h-full w-fit bg-gradient-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-800 hover:scale-105 transition-all duration-300"
+              disabled={hasReachedLimit}
+            >
               <Link
                 href={"/upload"}
                 className="flex items-center h-full w-full px-4 py-2"
@@ -40,20 +48,23 @@ const page = async () => {
               </Link>
             </Button>
           </div>
-          <div className="mb-6">
-            <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
-              <p className="text-sm flex items-center gap-x-1">
-                You've reached the limit of 5 uploads on the Basic plan.
-                <Link
-                  href={"/#pricing"}
-                  className="inline-flex items-center font-semibold"
-                >
-                  Upgrade to Pro <ExternalLink className="h-4 w-4 mx-1" />
-                </Link>
-                for unlimited uploads.
-              </p>
+          {hasReachedLimit && (
+            <div className="mb-6">
+              <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
+                <p className="text-sm flex items-center gap-x-1">
+                  You've reached the limit of {uploadLimit} uploads on the{" "}
+                  {uploadLimit === 5 ? "Basic" : "Free"} plan.
+                  <Link
+                    href={"/#pricing"}
+                    className="inline-flex items-center font-semibold"
+                  >
+                    Upgrade to Pro <ExternalLink className="h-4 w-4 mx-1" />
+                  </Link>
+                  for unlimited uploads.
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           {summaries.length === 0 ? (
             <EmptySummary />
           ) : (

@@ -10,7 +10,6 @@ import { generatePdfSummary, storePdfSummary } from "@/actions/uploadActions";
 import { Loader2 } from "lucide-react";
 import { generateAISummary } from "@/utils/gemini-ai";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 
 const fileSchema = z.object({
   file: z
@@ -27,11 +26,9 @@ const fileSchema = z.object({
     ),
 });
 
-const UploadForm = () => {
+const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
   const formRef = React.useRef<HTMLFormElement>(null);
   const router = useRouter();
-  const { userId } = useAuth();
-
   const { startUpload, isUploading } = useUploadThing("pdfUploader", {
     onClientUploadComplete: (res) => {
       toast.dismiss("uploading-pdf");
@@ -114,7 +111,7 @@ const UploadForm = () => {
             id="file"
             name="file"
             accept="application/pdf"
-            disabled={isUploading}
+            disabled={isUploading || hasReachedLimit}
             className={`${
               isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
             }`}
@@ -122,7 +119,7 @@ const UploadForm = () => {
           <Button
             type="submit"
             className="cursor-pointer"
-            disabled={isUploading}
+            disabled={isUploading || hasReachedLimit}
           >
             {isUploading ? (
               <>
