@@ -1,40 +1,17 @@
+import { pricingPlans } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 
-type PricingCardProps = {
+export type PricingCardProps = {
   id: string;
   name: string;
   description: string;
   price: number;
   items: string[];
   paymentLink: string;
+  priceId: string;
 };
-
-const plans: PricingCardProps[] = [
-  {
-    id: "basic",
-    name: "Basic",
-    description: "Perfect for occasional users",
-    price: 99,
-    items: ["5 PDFs per month", "Basic processing", "Email support"],
-    paymentLink: "",
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    description: "Ideal for professionals or teams",
-    price: 499,
-    items: [
-      "Unlimited PDF summaries",
-      "Priority processing",
-      "24/7 priority support",
-      "Markdown export",
-    ],
-    paymentLink: "",
-  },
-];
 
 const PricingSection = () => {
   return (
@@ -46,7 +23,7 @@ const PricingSection = () => {
           </h2>
         </div>
         <div className="relative flex justify-center flex-col lg:flex-row gap-8 items-center lg:items-stretch">
-          {plans.map((plan, index) => (
+          {pricingPlans.map((plan, index) => (
             <PricingCard key={index} {...plan} />
           ))}
         </div>
@@ -93,7 +70,7 @@ const PricingCard = ({
           ))}
         </div>
         <div className="space-y-2 flex justify-center w-full">
-          <Link
+          <a
             className={cn(
               "w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:bg-linear-to-l text-white border-2 py-2",
               id === "pro"
@@ -101,10 +78,11 @@ const PricingCard = ({
                 : "border-rose-100 from-rose-400 to-rose-500"
             )}
             href={paymentLink}
+            target="_blank"
           >
             Buy Now
             <ArrowRight size={18} />
-          </Link>
+          </a>
         </div>
       </div>
     </div>

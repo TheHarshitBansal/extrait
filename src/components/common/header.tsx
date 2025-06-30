@@ -1,7 +1,7 @@
 import { FileSignatureIcon } from "lucide-react";
-import { Button } from "../ui/button";
 import Navlink from "./nav-link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import PlanBadge from "./PlanBadge";
 
 const Header = () => {
   const isLoggedIn = false;
@@ -26,7 +26,7 @@ const Header = () => {
         <SignedIn>
           <div className="flex items-center gap-x-2">
             <Navlink href={"/upload"}>Upload a PDF</Navlink>
-            <span>Pro</span>
+            <PlanBadge />
             <UserButton />
           </div>
         </SignedIn>
