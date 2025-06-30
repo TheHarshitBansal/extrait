@@ -27,3 +27,16 @@ const createPayment = async ({session, sql}:{session: Stripe.Checkout.Session, s
         throw new Error("Database operation failed");
     }
 }
+
+export const handleSubscriptionDeleted = async ({subscriptionId, stripe}:{subscriptionId: string, stripe: Stripe}) => {
+    try {
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        const sql = await getDbConnection();
+        await sql`UPDATE users SET status = 'cancelled' WHERE customer_id = ${subscription.customer}`;
+        console.log("User subscription status updated to cancelled:");
+        
+    } catch (error) {
+        console.error("Error handling subscription deletion:", error);
+        throw new Error("Database operation failed while handling subscription deletion" + error);
+    }
+}
