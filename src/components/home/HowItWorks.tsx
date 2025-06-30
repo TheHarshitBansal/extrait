@@ -1,4 +1,5 @@
 import { BrainCircuit, FileOutput, FileText, MoveRight } from "lucide-react";
+import { MotionDiv, MotionH2, MotionH3 } from "../common/motion-wrapper";
 
 type Step = {
   icon: React.ReactNode;
@@ -44,18 +45,34 @@ const HowItWorks = () => {
           />
         </div>
         <div className="text-center mb-16">
-          <h2 className="font-extrabold text-xl uppercase mb-4 text-rose-500">
+          <MotionH2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="font-extrabold text-xl uppercase mb-4 text-rose-500"
+          >
             How it works
-          </h2>
-          <h3 className="font-bold text-3xl max-w-2xl mx-auto">
+          </MotionH2>
+          <MotionH3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="font-bold text-3xl max-w-2xl mx-auto"
+          >
             Effortlessly convert any PDF into an easy-to-read summary in just
             three simple steps.
-          </h3>
+          </MotionH3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
           {steps.map((step, index) => (
-            <div className="relative flex items-stretch" key={index}>
+            <MotionDiv
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="relative flex items-stretch"
+              key={index}
+            >
               <div className="relative p-6 rounded-2xl bg-white/5 backdrop-blur-xs border border-white/10 hover:border-rose-500/50 transition-colors group w-full">
                 <div className="flex flex-col gap-4 h-full">
                   <div className="flex items-center justify-center h-24 w-24 mx-auto rounded-2xl bg-linear-to-br from-rose-500/10 to-transparent group-hover:from-rose-500/20 transition-colors">
@@ -68,15 +85,20 @@ const HowItWorks = () => {
                 </div>
               </div>
               {index < steps.length - 1 && (
-                <div className="hidden md:block top-1/2 -right-4 transform -translate-y-1/2 z-10 absolute">
+                <MotionDiv
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+                  className="hidden md:block top-1/2 -right-4 transform -translate-y-1/2 z-10 absolute"
+                >
                   <MoveRight
                     size={32}
                     strokeWidth={1}
                     className="text-rose-400"
                   />
-                </div>
+                </MotionDiv>
               )}
-            </div>
+            </MotionDiv>
           ))}
         </div>
       </div>

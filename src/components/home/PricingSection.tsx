@@ -1,7 +1,13 @@
-import { pricingPlans } from "@/lib/constants";
+import {
+  containerVariants,
+  itemVariants,
+  listVariant,
+  pricingPlans,
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import React from "react";
+import { MotionDiv, MotionSection } from "../common/motion-wrapper";
 
 export type PricingCardProps = {
   id: string;
@@ -15,20 +21,30 @@ export type PricingCardProps = {
 
 const PricingSection = () => {
   return (
-    <section className="relative overflow-hidden" id="pricing">
+    <MotionSection
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      className="relative overflow-hidden"
+      id="pricing"
+    >
       <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
-        <div className="flex items-center justify-center w-full pb-12">
+        <MotionDiv
+          variants={itemVariants}
+          className="flex items-center justify-center w-full pb-12"
+        >
           <h2 className="uppercase font-extrabold text-xl mb-8 text-rose-500">
             Pricing
           </h2>
-        </div>
+        </MotionDiv>
         <div className="relative flex justify-center flex-col lg:flex-row gap-8 items-center lg:items-stretch">
           {pricingPlans.map((plan, index) => (
             <PricingCard key={index} {...plan} />
           ))}
         </div>
       </div>
-    </section>
+    </MotionSection>
   );
 };
 
@@ -41,19 +57,26 @@ const PricingCard = ({
   paymentLink,
 }: PricingCardProps) => {
   return (
-    <div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300">
+    <MotionDiv
+      variants={listVariant}
+      whileHover={{ scale: 1.02 }}
+      className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300"
+    >
       <div
         className={cn(
           "relative flex flex-col gap-4 lg:gap-8 h-full z-10 p-8 rounded-2xl border-[1px] border-gray-500/20",
           id === "pro" && "border-rose-500 gap-5 border-2"
         )}
       >
-        <div className="flex justify-between items-center gap-4">
+        <MotionDiv
+          variants={listVariant}
+          className="flex justify-between items-center gap-4"
+        >
           <div>
             <p className="text-lg lg:text-xl font-bold capitalize">{name}</p>
             <p className="text-base mt-2">{description}</p>
           </div>
-        </div>
+        </MotionDiv>
         <div className="flex gap-x-2">
           <p className="text-5xl tracking-tight font-extrabold">₹{price}</p>
           <div className="flex flex-col justify-end mb-[4px]">
@@ -61,14 +84,17 @@ const PricingCard = ({
             <p className="text-xs">/month</p>
           </div>
         </div>
-        <div className="space-y-2.5 leading-relaxed text-base flex-1">
+        <MotionDiv
+          variants={listVariant}
+          className="space-y-2.5 leading-relaxed text-base flex-1"
+        >
           {items.map((item, index) => (
             <li key={index} className="flex items-center gap-x-2">
               <CheckIcon size={18} />
               <span>{item}</span>
             </li>
           ))}
-        </div>
+        </MotionDiv>
         <div className="space-y-2 flex justify-center w-full">
           <a
             className={cn(
@@ -85,7 +111,7 @@ const PricingCard = ({
           </a>
         </div>
       </div>
-    </div>
+    </MotionDiv>
   );
 };
 export default PricingSection;

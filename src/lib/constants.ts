@@ -25,3 +25,45 @@ export const pricingPlans: PricingCardProps[] = [
     priceId: "price_1RfJyZRwGbSKS9AkMnxvDxav",
   },
 ];
+
+export const containerVariants = {
+  hidden: {opacity:0},
+  visible:{
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  }
+}
+
+export const itemVariants:any = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 50,
+      damping: 15,
+      duration: 0.8,
+    }
+  }
+}
+
+export const buttonVariants:any = {
+  scale: 1.05,
+  transition: {
+    type: "spring",
+    stiffness: 300,
+    damping: 10,
+  }
+}
+
+export const listVariant:any = {
+  hidden: {opacity: 0, x: -20},
+  visible: {opacity: 1, x: 0, transition:{
+    type: 'spring',
+    stiffness: 100,
+    damping: 20,
+  }}
+}
