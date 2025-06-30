@@ -11,7 +11,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const hasSubscribed = await hasActiveSubscription(
     user.emailAddresses[0].emailAddress
   );
-  if (!hasSubscribed) {
+  //todo: fix this logic
+  if (hasSubscribed) {
     return <UpgradeRequired />;
   }
   return <>{children}</>;

@@ -10,6 +10,9 @@ import { generatePdfSummary, storePdfSummary } from "@/actions/uploadActions";
 import { Loader2 } from "lucide-react";
 import { generateAISummary } from "@/utils/gemini-ai";
 import { useRouter } from "next/navigation";
+import { MotionDiv } from "../common/motion-wrapper";
+import { containerVariants, itemVariants } from "@/lib/constants";
+import { Separator } from "../ui/separator";
 
 const fileSchema = z.object({
   file: z
@@ -100,12 +103,29 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
+      <MotionDiv
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="flex items-center justify-center gap-x-2 mt-2 text-center w-full overflow-hidden"
+      >
+        <Separator className="w-full bg-gray-400/20" />
+        <span className="text-nowrap text-gray-500 font-semibold text-[12px]">
+          Upload PDF
+        </span>
+        <Separator className="w-full bg-gray-400/20" />
+      </MotionDiv>
       <form
         className="flex flex-col gap-6"
         onSubmit={handleSubmit}
         ref={formRef}
       >
-        <div className="flex justify-end items-center gap-1.5">
+        <MotionDiv
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex justify-end items-center gap-1.5"
+        >
           <Input
             type="file"
             id="file"
@@ -129,7 +149,7 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
               "Upload PDF"
             )}
           </Button>
-        </div>
+        </MotionDiv>
       </form>
     </div>
   );
