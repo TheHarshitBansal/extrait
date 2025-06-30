@@ -21,3 +21,14 @@ export const hasReachedUploadLimit = async (userId: string) => {
         throw new Error("Failed to fetch upload count");
     }
 }
+
+export const hasActiveSubscription = async (email: string) => {
+    const sql = await getDbConnection();
+    try {
+        const subscription = await sql`SELECT status FROM users WHERE email = ${email} AND status = 'active' AND price_id IS NOT NULL`;
+        return subscription.length > 0;
+    } catch (error) {
+        console.error("Error checking active subscription:", error);
+        throw new Error("Failed to check active subscription");
+    }
+}
