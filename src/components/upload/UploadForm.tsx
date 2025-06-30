@@ -9,10 +9,10 @@ import { Input } from "../ui/input";
 import { generatePdfSummary, storePdfSummary } from "@/actions/uploadActions";
 import { Loader2 } from "lucide-react";
 import { generateAISummary } from "@/utils/gemini-ai";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { MotionDiv } from "../common/motion-wrapper";
-import { containerVariants, itemVariants } from "@/lib/constants";
 import { Separator } from "../ui/separator";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 const fileSchema = z.object({
   file: z
@@ -30,8 +30,8 @@ const fileSchema = z.object({
 });
 
 const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const formRef = React.useRef<HTMLFormElement>(null);
-  const router = useRouter();
   const { startUpload, isUploading } = useUploadThing("pdfUploader", {
     onClientUploadComplete: (res) => {
       toast.dismiss("uploading-pdf");
@@ -53,6 +53,7 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(event.currentTarget);
     const file = formData.get("file") as File;
 
@@ -97,9 +98,10 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
       } else {
         toast.dismiss("analyzing-pdf");
         toast.success("AI summary generated successfully!");
-        router.push(`/summaries/${savedSummary?.data?.id}`);
+        redirect(`/summary/${savedSummary?.data?.id}`);
       }
     }
+    setIsLoading(false);
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
@@ -131,15 +133,17 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
             id="file"
             name="file"
             accept="application/pdf"
-            disabled={isUploading || hasReachedLimit}
+            disabled={isUploading || hasReachedLimit || isLoading}
             className={`${
-              isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+              isUploading || isLoading
+                ? "cursor-not-allowed opacity-50"
+                : "cursor-pointer"
             }`}
           />
           <Button
             type="submit"
             className="cursor-pointer"
-            disabled={isUploading || hasReachedLimit}
+            disabled={isUploading || hasReachedLimit || isLoading}
           >
             {isUploading ? (
               <>
@@ -150,6 +154,7 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
             )}
           </Button>
         </MotionDiv>
+        {isLoading && <LoadingSkeleton />}
       </form>
     </div>
   );

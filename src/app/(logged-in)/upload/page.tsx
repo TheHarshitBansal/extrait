@@ -12,9 +12,11 @@ const page = async () => {
   if (!user?.id) {
     return redirect("/sign-in");
   }
-  const { hasReachedLimit } = await hasReachedUploadLimit(user.id as string);
-  //todo: fix this logic
-  if (!hasReachedLimit) {
+  const { hasReachedLimit } = await hasReachedUploadLimit(
+    user.id as string,
+    user.emailAddresses[0].emailAddress
+  );
+  if (hasReachedLimit) {
     redirect("/dashboard");
   }
   return (

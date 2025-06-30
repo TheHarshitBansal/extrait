@@ -13,6 +13,9 @@ const createOrUpdateUser = async ({session, sql}:{session: Stripe.Checkout.Sessi
         if(user.length === 0){
             await sql`INSERT INTO users (email, full_name, customer_id, price_id, status) VALUES (${session.customer_details?.email}, ${session.customer_details?.name}, ${session.customer}, ${session.line_items?.data[0].price?.id}, 'active')`;
         }
+        else{
+            await sql`UPDATE users SET status = 'active' WHERE email = ${session.customer_email}`;
+        }
     } catch (error) {
         console.error("Error creating or updating user:", error);
         throw new Error("Database operation failed");

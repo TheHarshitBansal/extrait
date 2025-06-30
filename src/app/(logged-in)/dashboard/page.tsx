@@ -23,7 +23,8 @@ const page = async () => {
   }
   const summaries = await getSummaries(user.id as string);
   const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(
-    user.id as string
+    user.id as string,
+    user.emailAddresses[0].emailAddress
   );
 
   return (
