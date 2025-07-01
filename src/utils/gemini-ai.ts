@@ -21,6 +21,6 @@ export const generateAISummary = async (pdfText: string) => {
     } catch (error) {
         toast.error("Failed to generate AI summary. Please try again later.");
         console.error("Error generating AI summary:", error);
-        return null;
+        throw Error("Failed to generate AI summary");
     }
 }

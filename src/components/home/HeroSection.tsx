@@ -13,8 +13,14 @@ import {
   MotionSection,
   MotionSpan,
 } from "../common/motion-wrapper";
+import { hasActiveSubscription } from "@/lib/user";
+import { currentUser } from "@clerk/nextjs/server";
 
-const HeroSection = () => {
+const HeroSection = async () => {
+  const user = await currentUser();
+  const hasSubscribed = await hasActiveSubscription(
+    user?.emailAddresses?.[0]?.emailAddress!
+  );
   return (
     <MotionSection
       variants={containerVariants}
@@ -58,7 +64,7 @@ const HeroSection = () => {
       <MotionDiv variants={itemVariants} whileHover={buttonVariants}>
         <button className="text-white mt-6 text-base sm:text-lg lg:text-xl rounded-full lg:mt-16 bg-linear-to-r from-slate-900 to-rose-500 hover:bg-linear-to-l transition-all duration-300 hover:no-underline font-bold shadow-lg">
           <Link
-            href={"/#pricing"}
+            href={hasSubscribed ? "/upload" : "/#pricing"}
             className="flex gap-2 items-center px-4 py-2 sm:px-8 sm:py-3 lg:px-12 lg:py-4"
           >
             <span>Try Extrait</span>

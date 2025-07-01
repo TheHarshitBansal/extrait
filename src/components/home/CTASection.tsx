@@ -2,8 +2,14 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { currentUser } from "@clerk/nextjs/server";
+import { hasActiveSubscription } from "@/lib/user";
 
-const CTASection = () => {
+const CTASection = async () => {
+  const user = await currentUser();
+  const hasSubscribed = await hasActiveSubscription(
+    user?.emailAddresses?.[0]?.emailAddress!
+  );
   return (
     <section className="bg-gray-50 py-12">
       <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
@@ -25,7 +31,7 @@ const CTASection = () => {
                 className="w-full min-[400px]:w-auto bg-linear-to-r p-0 from-slate-900 to-rose-500 hover:bg-linear-to-l text-white transition-all duration-300"
               >
                 <Link
-                  href={"/#pricing"}
+                  href={hasSubscribed ? "/upload" : "/#pricing"}
                   className="flex items-center justify-center px-6 py-2"
                 >
                   Get Started

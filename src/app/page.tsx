@@ -5,7 +5,7 @@ import HeroSection from "@/components/home/HeroSection";
 import HowItWorks from "@/components/home/HowItWorks";
 import PricingSection from "@/components/home/PricingSection";
 
-export default function Home() {
+const Home = async () => {
   return (
     <div className="relative w-full">
       <BgGradient />
@@ -18,4 +18,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

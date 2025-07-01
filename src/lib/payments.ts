@@ -9,12 +9,12 @@ export const handleCheckoutSessionCompleted = async ({session}:{session: Stripe.
 
 const createOrUpdateUser = async ({session, sql}:{session: Stripe.Checkout.Session, sql:any}) => {
     try {
-        const user = await sql`SELECT * FROM users WHERE email = ${session.customer_email}`;
+        const user = await sql`SELECT * FROM users WHERE email = ${session.customer_details?.email}`;
         if(user.length === 0){
             await sql`INSERT INTO users (email, full_name, customer_id, price_id, status) VALUES (${session.customer_details?.email}, ${session.customer_details?.name}, ${session.customer}, ${session.line_items?.data[0].price?.id}, 'active')`;
         }
         else{
-            await sql`UPDATE users SET status = 'active' WHERE email = ${session.customer_email}`;
+            await sql`UPDATE users SET status = 'active', price_id = ${session?.line_items?.data[0]?.price?.id} WHERE email = ${session.customer_details?.email}`;
         }
     } catch (error) {
         console.error("Error creating or updating user:", error);

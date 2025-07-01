@@ -2,15 +2,15 @@ import { handleCheckoutSessionCompleted, handleSubscriptionDeleted } from "@/lib
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const POST = async (req:NextRequest) => {
-
     const payload = await req.text();
+    
     const signature = req.headers.get('stripe-signature');
     let event;
     try {
-        event = stripe.webhooks.constructEvent(payload, signature!, process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET!);
+        event = stripe.webhooks.constructEvent(payload, signature!, process.env.STRIPE_WEBHOOK_SECRET!);
         
         switch (event.type) {
             case 'checkout.session.completed':

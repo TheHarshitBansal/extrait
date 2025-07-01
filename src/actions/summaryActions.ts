@@ -1,7 +1,6 @@
 'use server'
 
 import { getDbConnection } from "@/utils/db";
-import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { UTApi } from "uploadthing/server";
 
@@ -11,6 +10,16 @@ const utapi = new UTApi(
     }
 )
 
+export const deleteFiles = async ({fileKey}:{fileKey:string}) => {
+    try {
+        await utapi.deleteFiles(fileKey);
+        return { success: true, message: "File deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        return { success: false, message: "Failed to delete file." };
+    }
+}
+
 export const deleteSummary = async ({userId, fileKey}:{userId:string, fileKey:string}) => {
     const sql = await getDbConnection();
     try {
@@ -19,7 +28,7 @@ export const deleteSummary = async ({userId, fileKey}:{userId:string, fileKey:st
             WHERE file_key = ${fileKey} AND user_id = ${userId}
             RETURNING *;
         `;
-        await utapi.deleteFiles(fileKey);
+        await deleteFiles({fileKey})
         if (result.length === 0) {
             throw new Error("Summary not found or already deleted.");
         }

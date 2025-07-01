@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import React from "react";
 import { MotionDiv, MotionSection } from "../common/motion-wrapper";
+import { currentUser } from "@clerk/nextjs/server";
+import { getPriceIdForActiveUsers, hasActiveSubscription } from "@/lib/user";
+import Link from "next/link";
 
 export type PricingCardProps = {
   id: string;
@@ -48,7 +51,7 @@ const PricingSection = () => {
   );
 };
 
-const PricingCard = ({
+const PricingCard = async ({
   name,
   id,
   description,
@@ -56,6 +59,17 @@ const PricingCard = ({
   items,
   paymentLink,
 }: PricingCardProps) => {
+  const user = await currentUser();
+  const hasSubscribed = await hasActiveSubscription(
+    user?.emailAddresses?.[0]?.emailAddress!
+  );
+
+  const priceId = await getPriceIdForActiveUsers(
+    user?.emailAddresses?.[0]?.emailAddress!
+  );
+
+  const activePlanName = pricingPlans.find((plan) => plan.priceId === priceId);
+
   return (
     <MotionDiv
       variants={listVariant}
@@ -96,19 +110,35 @@ const PricingCard = ({
           ))}
         </MotionDiv>
         <div className="space-y-2 flex justify-center w-full">
-          <a
+          <Link
             className={cn(
               "w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:bg-linear-to-l text-white border-2 py-2",
               id === "pro"
                 ? "border-rose-900"
                 : "border-rose-100 from-rose-400 to-rose-500"
             )}
-            href={paymentLink}
-            target="_blank"
+            href={
+              hasSubscribed && activePlanName?.id === "pro"
+                ? "/dashboard"
+                : activePlanName?.id === "basic" && id === "basic"
+                ? "/dashboard"
+                : paymentLink
+            }
+            target={
+              hasSubscribed && activePlanName?.id === "pro"
+                ? "_self"
+                : activePlanName?.id === "basic" && id === "basic"
+                ? "_self"
+                : "_blank"
+            }
           >
-            Buy Now
+            {hasSubscribed && activePlanName?.id === "pro"
+              ? "Explore"
+              : activePlanName?.id === "basic" && id === "basic"
+              ? "Explore"
+              : "Buy Now"}
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
       </div>
     </MotionDiv>

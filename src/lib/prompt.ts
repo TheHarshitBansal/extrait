@@ -32,6 +32,6 @@ Example format:
 - 📌 This is how every point should look
 - 🧠 This is another example point
 
-Never deviate from this format. Every line that contains content must start with "- " followed by an emoji. Don't miss any points and all the details of the document must be included in the summary.
+Never deviate from this format. Every line that contains content must start with "- " followed by an emoji. Don't miss any points and all the details of the document must be included in the summary. Don't add any "" or '' or similar marks around the keywords.
 
 Make sure to use emojis that are relevant to the context of the document. The summary should be engaging, easy to read, and visually appealing. Emojis should be the normal ones which are available on all devices, not the custom ones.`;

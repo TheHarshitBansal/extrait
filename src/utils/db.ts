@@ -3,11 +3,11 @@
 import {neon} from '@neondatabase/serverless'
 
 export async function getDbConnection() {
-    if(!process.env.NEXT_PUBLIC_DATABASE_URL){
+    if(!process.env.DATABASE_URL){
         throw new Error("Failed to connect to the database")
     }
-    console.log("Connecting to Neon database with URL:", process.env.NEXT_PUBLIC_DATABASE_URL);
+    console.log("Connecting to Neon database with URL:", process.env.DATABASE_URL);
     
-  const connection =  neon(process.env.NEXT_PUBLIC_DATABASE_URL)
+  const connection =  neon(process.env.DATABASE_URL)
   return connection;
 }

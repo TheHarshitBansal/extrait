@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import { MotionDiv } from "../common/motion-wrapper";
 import { Separator } from "../ui/separator";
 import LoadingSkeleton from "./LoadingSkeleton";
+import { deleteFiles } from "@/actions/summaryActions";
 
 const fileSchema = z.object({
   file: z
@@ -89,12 +90,18 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
         fileKey: response[0].key,
       });
       if (!AISummary) {
+        toast.dismiss("analyzing-pdf");
+        await deleteFiles({ fileKey: response[0].key });
         toast.error("Failed to generate AI summary. Please try again later.");
       } else {
         toast.dismiss("analyzing-pdf");
         toast.success("AI summary generated successfully!");
         redirect(`/summary/${response[0].key}`);
       }
+    } else {
+      toast.dismiss("analyzing-pdf");
+      await deleteFiles({ fileKey: response[0].key });
+      toast.error("Failed to generate AI summary. Please try again later.");
     }
     setIsLoading(false);
   };
