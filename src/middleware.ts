@@ -4,7 +4,13 @@ const isProtectedRoute = createRouteMatcher(['/dashboard/(.*)', '/summary/(.*)',
 
 
 export default clerkMiddleware(async (auth, req) => {
-  if(isProtectedRoute(req)) await auth.protect()
+  try{
+
+    if(isProtectedRoute(req)) await auth.protect()
+    } catch (error) {
+      console.error('Error during authentication:', error);
+      return new Response('Authentication failed', { status: 401 });
+    }
 });
 
 export const config = {
@@ -14,5 +20,5 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-  runtime: 'nodejs',
+  
 };
