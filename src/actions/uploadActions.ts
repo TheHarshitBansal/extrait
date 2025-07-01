@@ -65,37 +65,39 @@ export const generatePdfSummary = async (file: [{
     }
 }
 
-const savePdfSummary = async ({userId, fileUrl, summary, title, fileName} : {
+const savePdfSummary = async ({userId, fileUrl, summary, title, fileName, fileKey} : {
   userId: string;
   fileUrl: string;
   summary: string;
   title: string;
   fileName: string;
+  fileKey: string;
 }) => {
   try {
     const sql = await getDbConnection();
-    const [inserted] = await sql`
+    await sql`
       INSERT INTO pdf_summaries (
         user_id,
         file_name,
         summary_text,
         original_file_url,
-        title
+        title,
+        file_key
       ) VALUES (
         ${userId},
         ${fileName},
         ${summary},
         ${fileUrl},
-        ${title}
+        ${title},
+        ${fileKey}
       )
-      RETURNING id
     `;
 
     return {
       success: true,
       message: "PDF summary saved successfully",
       data: {
-        id: inserted.id,
+        key: fileKey,
       },
     };
   } catch (error) {
@@ -111,8 +113,9 @@ export const storePdfSummary = async ({
     fileName, 
     summary, 
     fileUrl, 
-    title
-}:{fileName: string, summary: string, fileUrl:string, title:string}) => {
+    title,
+    fileKey
+}:{fileName: string, summary: string, fileUrl:string, title:string, fileKey:string }) => {
     try {
         const {userId} = await auth();
         if(!userId) {
@@ -127,14 +130,14 @@ export const storePdfSummary = async ({
             summary,
             fileUrl,
             title,
+            fileKey
         })
         if (savedPdfSummary) {
-            revalidatePath(`/summaries/${savedPdfSummary.data?.id}`);
+            revalidatePath(`/summaries/${fileKey}`);
             return {
                 success: true,
                 message: "PDF summary stored successfully",
                 data: {
-                    id: savedPdfSummary.data?.id,
                     title: title,
                     fileName: fileName,
                     fileUrl: fileUrl,

@@ -18,7 +18,7 @@ const page = async (props: { params: Promise<{ id: string }> }) => {
 
   const summary = await getSummary({
     userId: user?.id,
-    summaryId: id,
+    fileKey: id,
   });
   if (!summary.success || !summary.summary) {
     notFound();
@@ -28,7 +28,7 @@ const page = async (props: { params: Promise<{ id: string }> }) => {
     summary.summary;
   const word_count = await getWordCount({
     user_id: user.id,
-    summary_id: id,
+    fileKey: id,
   });
 
   return (

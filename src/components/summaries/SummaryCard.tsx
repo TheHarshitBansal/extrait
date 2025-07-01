@@ -20,9 +20,9 @@ const SummaryCard = ({ summary }: any) => {
     >
       <Card className="relative h-full">
         <div className="absolute top-2 right-2">
-          <DeleteButton userId={summary.user_id} summaryId={summary.id} />
+          <DeleteButton userId={summary.user_id} fileKey={summary.file_key} />
         </div>
-        <Link href={`/summary/${summary.id}`} className="block px-4">
+        <Link href={`/summary/${summary.file_key}`} className="block px-4">
           <div className="flex flex-col gap-3 sm:gap-4">
             <div className="flex items-start gap-2 sm:gap-4">
               <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-rose-400 mt-1" />

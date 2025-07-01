@@ -17,17 +17,17 @@ import { deleteSummary } from "@/actions/summaryActions";
 import { toast } from "sonner";
 
 const DeleteButton = ({
-  summaryId,
+  fileKey,
   userId,
 }: {
-  summaryId: string;
+  fileKey: string;
   userId: string;
 }) => {
   const handleDelete = async () => {
     toast.loading("Deleting summary...", {
       id: "deleting-summary",
     });
-    const response = await deleteSummary({ userId, summaryId });
+    const response = await deleteSummary({ userId, fileKey });
     toast.dismiss("deleting-summary");
     if (!response?.success) {
       toast.error(response?.message || "Failed to delete summary.");
