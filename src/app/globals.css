@@ -88,6 +88,9 @@
   a {
     @apply hover:cursor-pointer;
   }
+  html{
+    @apply scroll-smooth;
+  }
 
   @keyframes gradient-x {
     0%,

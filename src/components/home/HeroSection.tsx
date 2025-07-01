@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -57,12 +56,15 @@ const HeroSection = () => {
         Generate clear, concise summaries of any document within seconds.
       </MotionH2>
       <MotionDiv variants={itemVariants} whileHover={buttonVariants}>
-        <Button className="text-white mt-6 text-base sm:text-lg lg:text-xl rounded-full px-8 sm:px-10 lg:px-12 py-6 sm:py-7 lg:mt-16 bg-linear-to-r from-slate-900 to-rose-500 hover:bg-linear-to-l transition-all duration-300 hover:no-underline font-bold shadow-lg">
-          <Link href={"/#pricing"} className="flex gap-2 items-center">
+        <button className="text-white mt-6 text-base sm:text-lg lg:text-xl rounded-full lg:mt-16 bg-linear-to-r from-slate-900 to-rose-500 hover:bg-linear-to-l transition-all duration-300 hover:no-underline font-bold shadow-lg">
+          <Link
+            href={"/#pricing"}
+            className="flex gap-2 items-center px-4 py-2 sm:px-8 sm:py-3 lg:px-12 lg:py-4"
+          >
             <span>Try Extrait</span>
             <ArrowRight className="animate-pulse" />
           </Link>
-        </Button>
+        </button>
       </MotionDiv>
     </MotionSection>
   );

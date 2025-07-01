@@ -22,11 +22,11 @@ const CTASection = () => {
               <Button
                 size={"lg"}
                 variant={"secondary"}
-                className="w-full min-[400px]:w-auto bg-linear-to-r from-slate-900 to-rose-500 hover:bg-linear-to-l text-white transition-all duration-300"
+                className="w-full min-[400px]:w-auto bg-linear-to-r p-0 from-slate-900 to-rose-500 hover:bg-linear-to-l text-white transition-all duration-300"
               >
                 <Link
                   href={"/#pricing"}
-                  className="flex items-center justify-center"
+                  className="flex items-center justify-center px-6 py-2"
                 >
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4 animate-pulse" />
