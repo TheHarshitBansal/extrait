@@ -85,7 +85,7 @@ const page = async () => {
               className="mb-6"
             >
               <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
-                <p className="text-sm flex items-center gap-x-1">
+                <p className="text-sm inline items-center gap-x-1">
                   You've reached the limit of {uploadLimit} uploads on the{" "}
                   {uploadLimit === 5 ? "Basic" : "Free"} plan.
                   <Link

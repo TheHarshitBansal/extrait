@@ -43,6 +43,7 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
       });
     },
     onUploadError: (error) => {
+      setIsLoading(false);
       toast.error(`Upload failed: ${error.message}`);
     },
   });
@@ -60,12 +61,14 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
       toast.error(
         result.error.flatten().fieldErrors.file?.[0] ?? "Invalid file"
       );
+      setIsLoading(false);
       return;
     }
 
     const response = await startUpload([file]);
     if (!response || response.length === 0) {
       toast.error("Failed to upload PDF.");
+      setIsLoading(false);
       return;
     }
 
@@ -156,8 +159,8 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
             )}
           </Button>
         </MotionDiv>
-        {isLoading && <LoadingSkeleton />}
       </form>
+      {isLoading && <LoadingSkeleton />}
     </div>
   );
 };

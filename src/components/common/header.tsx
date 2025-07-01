@@ -15,7 +15,7 @@ const Header = () => {
           <span className="font-extrabold text-gray-900">Extrait</span>
         </Navlink>
       </div>
-      <div className="flex lg:justify-center gap-x-4 lg:gap-x-12 lg:items-center">
+      <div className="flex lg:justify-center gap-x-2 sm:gap-x-4 lg:gap-x-12 lg:items-center">
         <Navlink href={"/#pricing"}>Pricing</Navlink>
         <SignedIn>
           <Navlink href={"/dashboard"}>Your Documents</Navlink>
