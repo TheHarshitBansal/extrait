@@ -15,6 +15,17 @@ export const metadata: Metadata = {
   title: "Extrait - AI-Powered PDF Summarization App",
   description:
     "Bored of reading long PDFs? Let Extrait summarize them for you! Extrait is an AI-powered PDF summarization app that helps you quickly understand the key points of any document. Upload your PDF, and Extrait will generate a concise summary, making it easier to digest complex information without the hassle of reading through entire documents.",
+  openGraph: {
+    images: [
+      {
+        url: "/opengraph.png",
+      },
+    ],
+  },
+  metadataBase: new URL("https://extrait-ai.vercel.app"),
+  alternates: {
+    canonical: "https://extrait-ai.vercel.app",
+  },
 };
 
 export default function RootLayout({
