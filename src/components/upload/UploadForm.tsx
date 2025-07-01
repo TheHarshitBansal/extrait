@@ -35,11 +35,6 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
   const { startUpload, isUploading } = useUploadThing("pdfUploader", {
     onClientUploadComplete: (res) => {
       toast.dismiss("uploading-pdf");
-      if (res && res.length > 0) {
-        toast.success("PDF uploaded successfully!");
-      } else {
-        toast.error("Failed to upload PDF.");
-      }
     },
     onUploadBegin: () => {
       toast.loading("Uploading PDF...", {
@@ -80,7 +75,6 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
     let savedSummary;
     const summary = await generatePdfSummary(response as any);
     if (summary?.success) {
-      toast.success("PDF summary generated successfully!");
       formRef.current?.reset();
     }
     const AISummary = await generateAISummary(
@@ -92,13 +86,14 @@ const UploadForm = ({ hasReachedLimit }: { hasReachedLimit: boolean }) => {
         title: summary.data?.title,
         fileName: file.name,
         fileUrl: response[0].ufsUrl,
+        fileKey: response[0].key,
       });
       if (!AISummary) {
         toast.error("Failed to generate AI summary. Please try again later.");
       } else {
         toast.dismiss("analyzing-pdf");
         toast.success("AI summary generated successfully!");
-        redirect(`/summary/${savedSummary?.data?.id}`);
+        redirect(`/summary/${response[0].key}`);
       }
     }
     setIsLoading(false);

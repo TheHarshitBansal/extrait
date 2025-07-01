@@ -67,7 +67,7 @@ const SectionContent = ({ content }: { content: String[] }) => (
     className="space-y-4"
   >
     {content.map((paragraph, index) => {
-      const { isEmpty, isMainPoint, isNumbered, hasEmoji } = parsePoint(
+      const { isEmpty, isMainPoint, hasEmoji } = parsePoint(
         paragraph as string
       );
       if (isEmpty) return null;
@@ -83,7 +83,9 @@ const SectionContent = ({ content }: { content: String[] }) => (
           />
         );
       }
-      return <RegularPoint point={paragraph as string} index={index} />;
+      return (
+        <RegularPoint point={paragraph as string} key={index} index={index} />
+      );
     })}
   </MotionDiv>
 );
