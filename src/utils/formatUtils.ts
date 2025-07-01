@@ -39,14 +39,16 @@ export const parsePoint = (point: string) => {
   return {isNumbered, isMainPoint, hasEmoji, isEmpty};
 }
 
-export const parseEmojiContent = (content: string) => {
+export const parseEmojiContent = (content: string): { emoji: string; text: string } => {
   const cleanContent = content.replace(/^[-]\s*/, '').trim();
-  const matches = cleanContent.match(/^(\p{Emoji}+)(.+)$/u)
-  if(!matches) return null;
+  const matches = cleanContent.match(/^(\p{Emoji}+)(.+)$/u);
+  if (!matches) {
+    return { emoji: "", text: cleanContent };
+  }
 
   const [_, emoji, text] = matches;
   return {
     emoji: emoji.trim(),
     text: text.trim()
   };
-}
+};
