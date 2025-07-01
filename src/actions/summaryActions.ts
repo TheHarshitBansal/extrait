@@ -1,17 +1,25 @@
 'use server'
 
 import { getDbConnection } from "@/utils/db";
+import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { UTApi } from "uploadthing/server";
 
-export const deleteSummary = async ({userId, summaryId}:{userId:string, summaryId:string}) => {
+const utapi = new UTApi(
+    {
+        token: process.env.UPLOADTHING_TOKEN
+    }
+)
+
+export const deleteSummary = async ({userId, fileKey}:{userId:string, fileKey:string}) => {
     const sql = await getDbConnection();
     try {
         const result = await sql`
             DELETE FROM pdf_summaries
-            WHERE id = ${summaryId} AND user_id = ${userId}
+            WHERE file_key = ${fileKey} AND user_id = ${userId}
             RETURNING *;
         `;
-
+        await utapi.deleteFiles(fileKey);
         if (result.length === 0) {
             throw new Error("Summary not found or already deleted.");
         }
@@ -23,12 +31,12 @@ export const deleteSummary = async ({userId, summaryId}:{userId:string, summaryI
     }
 }
 
-export const getSummary = async ({userId, summaryId}:{userId:string, summaryId:string}) => {
+export const getSummary = async ({userId, fileKey}:{userId:string, fileKey:string}) => {
     const sql = await getDbConnection();
     try {
         const summary = await sql`
             SELECT * FROM pdf_summaries
-            WHERE user_id = ${userId} AND id = ${summaryId}
+            WHERE user_id = ${userId} AND file_key = ${fileKey}
         `;
         return {
             success: true,
@@ -41,13 +49,13 @@ export const getSummary = async ({userId, summaryId}:{userId:string, summaryId:s
     }
 }
 
-export const getWordCount = async ({user_id, summary_id}:{user_id:string, summary_id:string}) => {
+export const getWordCount = async ({user_id, fileKey}:{user_id:string, fileKey:string}) => {
    const sql = await getDbConnection();
     try {
         const result = await sql`
             SELECT LENGTH(summary_text)-LENGTH(REPLACE(summary_text, ' ', ''))+1 as word_count
             FROM pdf_summaries
-            WHERE user_id = ${user_id} AND id = ${summary_id}
+            WHERE user_id = ${user_id} AND file_key = ${fileKey}
         `;
         return result[0].word_count;
     } catch (error) {
