@@ -47,11 +47,10 @@
 - 🔄 **User Session Persistence** — Automatically remembers your session and shows your document history  
 - 🧬 **Edge-Optimized Middleware** — Fast, low-latency access control using Next.js App Router and Clerk’s Edge middleware  
 - 💳 **Stripe-Powered Pro Plan** — Premium tier unlocks unlimited summaries, priority processing, and Markdown export  
-- 💼 **History Dashboard** — See when a file was uploaded, what it’s titled, and re-download it anytime  
-
+- 💼 **History Dashboard** — See when a file was uploaded, what it’s titled, and re-download it anytime 
 - 🖼️ **Custom Watermark in PDFs** — Brand-safe summary downloads with “Extrait AI” watermark  
 - 🚀 **Fast Postgres via Neon** — Serverless Postgres used for document/session storage with blazing fast cold start time  
-
+- 🎞️ **Smooth Animations** — Enhanced user interactions with **Framer Motion** transitions and effects
 - 📂 **Organized Codebase** — Clean folder structure, modular components, and reusable utilities  
 - 💬 **Toast Notifications** — Instant feedback using `sonner` toasts for upload success, errors, limits, etc.  
 - ⚙️ **Type-Safe** — Fully TypeScript-based with strict typing for safer development  
@@ -68,6 +67,7 @@
   <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge" />
   <img src="https://img.shields.io/badge/Clerk-F44F5E?logo=clerk&logoColor=white&style=for-the-badge" />
   <img src="https://img.shields.io/badge/Stripe-635BFF?logo=stripe&logoColor=white&style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Framer%20Motion-0055FF?logo=framer&logoColor=white&style=for-the-badge" />
   <img src="https://img.shields.io/badge/NeonDB-1BA27A?logo=postgresql&logoColor=white&style=for-the-badge" />
   <img src="https://img.shields.io/badge/LangChain-000000?style=for-the-badge&logo=data:base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZmZmIi8+PC9zdmc+" />
   <img src="https://img.shields.io/badge/Gemini%20AI-4285F4?logo=google&logoColor=white&style=for-the-badge" />
@@ -89,6 +89,7 @@
 | 📤 UploadThing              | Drag-and-drop PDF uploads |
 | 📄 pdf-parse                 | Extracts raw text from PDFs |
 | 🧾 html2pdf.js + marked      | Converts markdown to styled PDF |
+| 🎞️ Framer Motion          | Smooth UI animations and transitions |
 | 💬 Sonner                   | Toast notifications |
 | ⚙️ TypeScript               | Type-safe JS |
 | 🧪 ESLint + Prettier         | Formatting and linting |
